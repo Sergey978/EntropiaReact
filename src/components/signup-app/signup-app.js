@@ -1,43 +1,47 @@
 import React, { Component } from 'react';
+import Navbar from '../navbar';
+import SignupForm from './signup-form'
 
-import AppHeader from '../app-header';
-import TodoList from '../todo-list';
-import SearchPanel from '../search-panel';
-import ItemStatusFilter from '../item-status-filter';
-import ItemAddForm from '../item-add-form';
-
-import './app.css';
-
-
-export default class App extends Component {
+export default class SignupApp extends Component {
 
   render() {
-    const { items, filter, search } = this.state;
-    const doneCount = items.filter((item) => item.done).length;
-    const toDoCount = items.length - doneCount;
-    const visibleItems = this.searchItems(this.filterItems(items, filter), search);
-
     return (
-      <div className="todo-app">
-        <AppHeader toDo={toDoCount} done={doneCount}/>
+      <div>
+        <Navbar />
 
-        <div className="search-panel d-flex">
-          <SearchPanel
-            onSearchChange={this.onSearchChange}/>
+        <header id="head" className="secondary"></header>
 
-          <ItemStatusFilter
-            filter={filter}
-            onFilterChange={this.onFilterChange} />
-        </div>
+        {/*  <!-- container --> */}
+        <div className="container">
+          {/* breadcum  */}
+          <ol className="breadcrumb">
+            <li><a href="index.html">Home</a></li>
+            <li className="active">Registration</li>
+          </ol>
+          {/* end bredacum */}
+          <div className="row">
+            {/*  	<!-- Article main content --> */}
 
-        <TodoList
-          items={ visibleItems }
-          onToggleImportant={this.onToggleImportant}
-          onToggleDone={this.onToggleDone}
-          onDelete={this.onDelete} />
+            <article className="col-xs-12 maincontent">
 
-        <ItemAddForm
-          onItemAdded={this.onItemAdded} />
+              <header className="page-header">
+                <h1 className="page-title">Registration</h1>
+              </header>
+              <div className="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+                <div className="panel panel-default">
+                  <div className="panel-body">
+                    <h3 className="thin text-center">Register a new account</h3>
+
+                    <p className="text-center text-muted">Lorem ipsum dolor sit amet, <a href="signin.html">Login</a> adipisicing elit. Quo nulla quibusdam cum doloremque incidunt nemo sunt a tenetur omnis odio. </p>
+                    <hr />
+                    <SignupForm />
+                  </div>
+                </div>
+              </div>
+            </article>
+            { /* <!-- /Article -->  */}
+          </div>
+        </div> {  /*  <!-- /container -->*/}
       </div>
     );
   };

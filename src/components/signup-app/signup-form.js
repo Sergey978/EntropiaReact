@@ -5,7 +5,7 @@ import './signup-form.css';
 export default class SignupForm extends Component {
     render() {
         return (
-            <React.Fragment>
+            <form>
                 <div className="top-margin">
                     <label>First Name</label>
                     <input type="text" className="form-control" />
@@ -44,7 +44,7 @@ export default class SignupForm extends Component {
                         <button className="btn btn-action" type="submit">Register</button>
                     </div>
                 </div>
-            </React.Fragment>
+            </form>
         );
     }
 
