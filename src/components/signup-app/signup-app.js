@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Navbar from '../navbar';
-import SignupForm from './signup-form'
+import SignupForm from './signup-form';
+import Footer from '../footer';
 
 export default class SignupApp extends Component {
 
@@ -42,6 +43,9 @@ export default class SignupApp extends Component {
             { /* <!-- /Article -->  */}
           </div>
         </div> {  /*  <!-- /container -->*/}
+
+        {  /*  <!-- footer -->*/}
+        <Footer />
       </div>
     );
   };
