@@ -14,7 +14,9 @@
   },
   "scripts": {
     "start": "parcel public/index.html",
+	"build": "parcel build src/index.js",
     "start-signup": "parcel public/signup.html",
-	  "build": "parcel build src/index.js"
+	"build-signup": "parcel build src/signup.js"
+	  
   }
 }

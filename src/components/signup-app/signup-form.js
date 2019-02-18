@@ -5,28 +5,24 @@ import './signup-form.css';
 export default class SignupForm extends Component {
     render() {
         return (
-            <form>
+            <form method = "post" action = "/account/signup/">
                 <div className="top-margin">
-                    <label>First Name</label>
-                    <input type="text" className="form-control" />
-                </div>
-                <div className="top-margin">
-                    <label>Last Name</label>
-                    <input type="text" className="form-control" />
-                </div>
+                    <label>Login Name</label>
+                    <input type="text" className="form-control" name = "loginName" />
+                </div>                
                 <div className="top-margin">
                     <label>Email Address <span className="text-danger">*</span></label>
-                    <input type="text" className="form-control" />
+                    <input type="text" className="form-control" name="email" />
                 </div>
 
                 <div className="row top-margin">
                     <div className="col-sm-6">
                         <label>Password <span className="text-danger">*</span></label>
-                        <input type="text" className="form-control" />
+                        <input type="text" className="form-control"  name="password"/>
                     </div>
                     <div className="col-sm-6">
                         <label>Confirm Password <span className="text-danger">*</span></label>
-                        <input type="text" className="form-control" />
+                        <input type="text" className="form-control"  name="confirmPassword"/>
                     </div>
                 </div>
 
