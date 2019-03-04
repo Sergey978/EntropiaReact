@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Navbar from '../navbar';
-import SignupForm from './signup-form';
+import SignupForm from '../forms/signup-form.jsx';
 import Footer from '../footer';
 
 export default class SignupApp extends Component {
