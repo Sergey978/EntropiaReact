@@ -5,4 +5,3 @@ import SignupApp from './components/signup-app';
 
 ReactDOM.render(<SignupApp />,
   document.getElementById('root'));
-
