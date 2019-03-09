@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { FormState, Form } from 'react-formstate';
-import RfsInput from '../inputs/rfs-bootstrap/RfsInput'
+import RfsInput from '../inputs/rfs-bootstrap/RfsInput';
+import  ApiService from '../../services/api-service';
 
 // Using the optional validation library to demonstrate fluent api
 import { validationAdapter, library as vlib } from 'react-formstate-validation';
@@ -9,6 +10,8 @@ validationAdapter.plugInto(FormState);
 import './signup-form.css';
 
 export default class SignupForm extends Component {
+
+   apiService = new ApiService();
 
   constructor(props) {
     super(props);
@@ -28,6 +31,10 @@ export default class SignupForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     // this.handlePasswordChange = this.handlePasswordChange.bind(this);   
     // this.handleEmailChange = this.handleEmailChange.bind(this);
+
+    
+
+
   }
 
   //
@@ -162,11 +169,18 @@ export default class SignupForm extends Component {
         fieldState = context.getFieldState('username', asyncToken);
 
       // if the token still matches, the username we are verifying is still relevant
-      if (fieldState) {
+      if (fieldState) {        
         if (username.toLowerCase() === 'taken' || username.toLowerCase() === 'huckle') {
           fieldState.setInvalid('Username already exists');
         } else {
           fieldState.setValid('Verified');
+        }
+
+        // check is username is free
+
+        const isUsernameFree =   this.apiService.isUserNameExist(username.toLowerCase());        
+        if (isUsernameFree){
+            fieldState.setValid('Verified');
         }
         context.updateFormState();
       }
@@ -180,9 +194,6 @@ export default class SignupForm extends Component {
     context.set('confirmPassword', ''); // clear the confirmation field
     context.updateFormState();
   }
-
-
-
 
 
   handleSubmit(e) {

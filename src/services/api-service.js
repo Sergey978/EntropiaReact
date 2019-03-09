@@ -1,3 +1,5 @@
+import 'babel-polyfill';
+
 export default class ApiService {
 
   _apiBase = 'http://localhost:8080';
@@ -11,7 +13,6 @@ export default class ApiService {
     }
     return await res.json();
   }
-//example
 
   async getAllPeople() {
     const res = await this.getResource(`/people/`);
@@ -20,6 +21,17 @@ export default class ApiService {
 
   getPerson(id) {
     return this.getResource(`/people/${id}/`);
+  }
+
+
+  async isUserNameExist(name){
+    const resExist = this.getResource(`/account/username/${name}/`);
+    resExist.then(function (user){
+      console.log("is exist  ", user.response);      
+      
+      
+    })
+    return resExist;
   }
 
 }
