@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { FormState, Form } from 'react-formstate';
 import RfsInput from '../inputs/rfs-bootstrap/RfsInput';
-import  ApiService from '../../services/api-service';
+import ApiService from '../../services/api-service';
+
+import 'babel-polyfill';
 
 // Using the optional validation library to demonstrate fluent api
 import { validationAdapter, library as vlib } from 'react-formstate-validation';
@@ -11,7 +13,7 @@ import './signup-form.css';
 
 export default class SignupForm extends Component {
 
-   apiService = new ApiService();
+  apiService = new ApiService();
 
   constructor(props) {
     super(props);
@@ -32,7 +34,7 @@ export default class SignupForm extends Component {
     // this.handlePasswordChange = this.handlePasswordChange.bind(this);   
     // this.handleEmailChange = this.handleEmailChange.bind(this);
 
-    
+
 
 
   }
@@ -93,7 +95,8 @@ export default class SignupForm extends Component {
             required
             fsv={v => v.email().msg('is not email')
             }
-            handleValueChange={this.handleEmailChange}
+            handleValueChange={v => this.handleEmailChange(v)}
+            autoComplete='off'
           />
         </div>
 
@@ -112,7 +115,7 @@ export default class SignupForm extends Component {
             <RfsInput
               type='password'
               formField='confirmPassword'
-              label= 'Confirm Password'
+              label='Confirm Password'
               required
               preferNull
             />
@@ -169,22 +172,58 @@ export default class SignupForm extends Component {
         fieldState = context.getFieldState('username', asyncToken);
 
       // if the token still matches, the username we are verifying is still relevant
-      if (fieldState) {        
-        if (username.toLowerCase() === 'taken' || username.toLowerCase() === 'huckle') {
-          fieldState.setInvalid('Username already exists');
-        } else {
-          fieldState.setValid('Verified');
-        }
+      if (fieldState) {     
 
         // check is username is free
 
-        const isUsernameFree =   this.apiService.isUserNameExist(username.toLowerCase());        
-        if (isUsernameFree){
-            fieldState.setValid('Verified');
-        }
-        context.updateFormState();
+        const isUsernameFree = this.apiService.isUserNameExist(username.toLowerCase());
+
+        isUsernameFree.then(function (v) {
+            if (v.response  === "false") {              
+              fieldState.setValid('Verified');
+            }
+            else {              
+              fieldState.setInvalid('Username already exists');
+            } 
+            context.updateFormState();
+          }
+        )
+
       }
     }, 2000);
+  }
+
+  handleEmailChange(userEmail) {
+    const context = this.formState.createUnitOfWork(),
+      fieldState = context.set('email', userEmail);
+
+    fieldState.validate();
+    if (fieldState.isInvalid()) {
+      context.updateFormState();
+      return;
+    } // else
+
+    const asyncToken = fieldState.setValidating('Verifying user Email...');
+    context.updateFormState();
+
+    if (userEmail === fieldState.getInitialValue()) {
+      fieldState.setValid();
+      context.updateFormState();
+      return;
+    } // else
+
+    // check is user email is free
+    const isUserEmailFree = this.apiService.isUserEmailExist(userEmail.toLowerCase());
+    if (isUserEmailFree) {
+      fieldState.setValid('Verified');
+    }
+    else {
+      fieldState.setInvalid('Emai already in use');
+    }
+    context.updateFormState();
+
+
+
   }
 
 

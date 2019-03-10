@@ -24,14 +24,8 @@ export default class ApiService {
   }
 
 
-  async isUserNameExist(name){
-    const resExist = this.getResource(`/account/username/${name}/`);
-    resExist.then(function (user){
-      console.log("is exist  ", user.response);      
-      
-      
-    })
-    return resExist;
+  async isUserNameExist(name){    
+   return    this.getResource(`/account/username/${name}/`) ;
   }
 
 }
