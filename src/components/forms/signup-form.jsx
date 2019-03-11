@@ -79,7 +79,7 @@ export default class SignupForm extends Component {
         <div className="top-margin">
           <RfsInput
             formField='username'
-            label='Username *'
+            label='Username'
             required
             fsv={v => v.regex(/^\S+$/).msg('Username must not contain spaces')}
             handleValueChange={v => this.handleUsernameChange(v)}

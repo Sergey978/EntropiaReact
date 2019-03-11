@@ -2,7 +2,8 @@ import 'babel-polyfill';
 
 export default class ApiService {
 
-  _apiBase = 'http://localhost:8080';
+  // _apiBase = 'http://localhost:8080';
+  _apiBase = 'http://192.168.1.131:8080';
 
   async getResource(url) {
     const res = await fetch(`${this._apiBase}${url}`);
