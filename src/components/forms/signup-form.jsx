@@ -172,25 +172,32 @@ export default class SignupForm extends Component {
         fieldState = context.getFieldState('username', asyncToken);
 
       // if the token still matches, the username we are verifying is still relevant
-      if (fieldState) {     
+      if (fieldState) {
 
         // check is username is free
 
         const isUsernameFree = this.apiService.isUserNameExist(username.toLowerCase());
 
         isUsernameFree.then(function (v) {
-            if (v.response  === "false") {              
-              fieldState.setValid('Verified');
-            }
-            else {              
-              fieldState.setInvalid('Username already exists');
-            } 
+          if (v.response === "false") {
+            fieldState.setValid('Verified');
+          }
+          else {
+            fieldState.setInvalid('Username already exists');
+          }
+          context.updateFormState();
+        }
+        )
+          .catch(function (error) {
+            fieldState.setInvalid('something wrong happened...');
             context.updateFormState();
           }
-        )
+
+          )
 
       }
     }, 2000);
+
   }
 
   handleEmailChange(userEmail) {
@@ -203,27 +210,49 @@ export default class SignupForm extends Component {
       return;
     } // else
 
-    const asyncToken = fieldState.setValidating('Verifying user Email...');
-    context.updateFormState();
-
     if (userEmail === fieldState.getInitialValue()) {
       fieldState.setValid();
       context.updateFormState();
       return;
     } // else
 
-    // check is user email is free
-    const isUserEmailFree = this.apiService.isUserEmailExist(userEmail.toLowerCase());
-    if (isUserEmailFree) {
-      fieldState.setValid('Verified');
-    }
-    else {
-      fieldState.setInvalid('Emai already in use');
-    }
-    context.updateFormState();
+    // const asyncToken = fieldState.setValidating('Verifying user Email...');
+    // context.updateFormState();
 
 
+    // // calling an api
+    // window.setTimeout(() => {
+    //   const context = this.formState.createUnitOfWork(),
+    //     fieldState = context.getFieldState('email', asyncToken);
 
+    //   // if the token still matches, the email we are verifying is still relevant
+    //   if (fieldState) {
+
+    //     // check is email is free
+
+    //     const isUserEmailFree = this.apiService.isUserEmailExist(userEmail.toLowerCase());
+
+    //     isUserEmailFree.then(function (v) {
+
+    //       console.log("response " + v.response);
+    //       if (v.response === "false") {
+    //         fieldState.setValid('Verified');
+    //       }
+    //       else {
+    //         fieldState.setInvalid('Email already exists');
+    //       }
+    //       context.updateFormState();
+    //     }
+    //     )
+    //       .catch(function (error) {
+    //         fieldState.setInvalid('something wrong happened...');
+    //         context.updateFormState();
+    //       }
+
+    //       )
+
+    //   }
+    // }, 2000);
   }
 
 

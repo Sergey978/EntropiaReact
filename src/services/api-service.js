@@ -2,11 +2,19 @@ import 'babel-polyfill';
 
 export default class ApiService {
 
-  // _apiBase = 'http://localhost:8080';
-  _apiBase = 'http://192.168.1.131:8080';
+  _apiBase = 'http://localhost:8080';
+  //_apiBase = 'http://192.168.1.131:8080';
 
-  async getResource(url) {
-    const res = await fetch(`${this._apiBase}${url}`);
+  async getResource(url, params) {
+    const res = await fetch(`${this._apiBase}${url}`,
+      {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded', 
+                },
+        method: "POST",
+        body: "param1=value1&param2=value2"
+      }
+    );
 
     if (!res.ok) {
       throw new Error(`Could not fetch ${url}` +
@@ -25,8 +33,16 @@ export default class ApiService {
   }
 
 
-  async isUserNameExist(name){    
-   return    this.getResource(`/account/username/${name}/`) ;
+  async isUserNameExist(name) {
+    let res = this.getResource("/account/username/", { username: name });
+    return res;
+  }
+
+  async isUserEmailExist(email) {
+
+    let res = this.getResource("/account/useremail/", { email: `${email}` });
+
+    return res;
   }
 
 }
