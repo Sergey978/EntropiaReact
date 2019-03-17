@@ -12,7 +12,8 @@ export default class ApiService {
           'Content-Type': 'application/x-www-form-urlencoded', 
                 },
         method: "POST",
-        body: "param1=value1&param2=value2"
+      //  body: "param1=value1&param2=value2"
+      body: params
       }
     );
 
@@ -34,14 +35,13 @@ export default class ApiService {
 
 
   async isUserNameExist(name) {
-    let res = this.getResource("/account/username/", { username: name });
+    let res = this.getResource("/account/username/", `username=${name}`);
     return res;
   }
 
   async isUserEmailExist(email) {
 
-    let res = this.getResource("/account/useremail/", { email: `${email}` });
-
+    let res = this.getResource("/account/useremail/",  `email=${email}`);
     return res;
   }
 

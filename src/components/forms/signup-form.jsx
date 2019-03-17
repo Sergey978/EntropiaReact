@@ -7,6 +7,7 @@ import 'babel-polyfill';
 
 // Using the optional validation library to demonstrate fluent api
 import { validationAdapter, library as vlib } from 'react-formstate-validation';
+import ValidatedCheckbox from '../inputs/rfs-bootstrap/ValidatedCheckbox.jsx';
 validationAdapter.plugInto(FormState);
 
 import './signup-form.css';
@@ -33,10 +34,6 @@ export default class SignupForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     // this.handlePasswordChange = this.handlePasswordChange.bind(this);   
     // this.handleEmailChange = this.handleEmailChange.bind(this);
-
-
-
-
   }
 
   //
@@ -65,7 +62,6 @@ export default class SignupForm extends Component {
     }
   }
 
-
   //
   //
   // Render
@@ -74,7 +70,7 @@ export default class SignupForm extends Component {
 
   render() {
     return (
-      <Form formState={this.formState} onSubmit={this.handleSubmit}>
+      <Form formState={this.formState} onSubmit={this.handleSubmit} id="SignupForm">
 
         <div className="top-margin">
           <RfsInput
@@ -83,7 +79,6 @@ export default class SignupForm extends Component {
             required
             fsv={v => v.regex(/^\S+$/).msg('Username must not contain spaces')}
             handleValueChange={v => this.handleUsernameChange(v)}
-            autoComplete='off'
           />
         </div>
 
@@ -96,7 +91,6 @@ export default class SignupForm extends Component {
             fsv={v => v.email().msg('is not email')
             }
             handleValueChange={v => this.handleEmailChange(v)}
-            autoComplete='off'
           />
         </div>
 
@@ -126,12 +120,17 @@ export default class SignupForm extends Component {
 
         <div className="row">
           <div className="col-lg-8">
-            <label className="checkbox" >
-              <input type="checkbox" />
-              I've read the <a href="page_terms.html">Terms and Conditions</a>
-            </label>
+            <ValidatedCheckbox
+              formField='AgreementsConfirm'
+              label='I agree with '
+              linkUrl='page_terms.html'
+              linkText='Terms and Conditions'
+              required='-'
+              fsv={v => v.equals(true).msg('You must agree with Terms and Conditions')}
+            />
 
           </div>
+
           <div className="col-lg-4 text-right">
             <button className="btn btn-action" type="submit">Register</button>
           </div>
@@ -216,43 +215,43 @@ export default class SignupForm extends Component {
       return;
     } // else
 
-    // const asyncToken = fieldState.setValidating('Verifying user Email...');
-    // context.updateFormState();
+    const asyncToken = fieldState.setValidating('Verifying user Email...');
+    context.updateFormState();
 
 
-    // // calling an api
-    // window.setTimeout(() => {
-    //   const context = this.formState.createUnitOfWork(),
-    //     fieldState = context.getFieldState('email', asyncToken);
+    // calling an api
+    window.setTimeout(() => {
+      const context = this.formState.createUnitOfWork(),
+        fieldState = context.getFieldState('email', asyncToken);
 
-    //   // if the token still matches, the email we are verifying is still relevant
-    //   if (fieldState) {
+      // if the token still matches, the email we are verifying is still relevant
+      if (fieldState) {
 
-    //     // check is email is free
+        // check is email is free
 
-    //     const isUserEmailFree = this.apiService.isUserEmailExist(userEmail.toLowerCase());
+        const isUserEmailFree = this.apiService.isUserEmailExist(userEmail.toLowerCase());
 
-    //     isUserEmailFree.then(function (v) {
+        isUserEmailFree.then(function (v) {
 
-    //       console.log("response " + v.response);
-    //       if (v.response === "false") {
-    //         fieldState.setValid('Verified');
-    //       }
-    //       else {
-    //         fieldState.setInvalid('Email already exists');
-    //       }
-    //       context.updateFormState();
-    //     }
-    //     )
-    //       .catch(function (error) {
-    //         fieldState.setInvalid('something wrong happened...');
-    //         context.updateFormState();
-    //       }
+          console.log("response " + v.response);
+          if (v.response === "false") {
+            fieldState.setValid('Verified');
+          }
+          else {
+            fieldState.setInvalid('Email already exists');
+          }
+          context.updateFormState();
+        }
+        )
+          .catch(function (error) {
+            fieldState.setInvalid('something wrong happened...');
+            context.updateFormState();
+          }
 
-    //       )
+          )
 
-    //   }
-    // }, 2000);
+      }
+    }, 2000);
   }
 
 
@@ -268,7 +267,9 @@ export default class SignupForm extends Component {
     e.preventDefault();
     const model = this.formState.createUnitOfWork().createModel();
     if (model) {
-      alert(JSON.stringify(model)); // proceed with valid data
+    //  alert(JSON.stringify(model)); // proceed with valid data
+      document.getElementById('SignupForm').submit();
+
     }
     // else: createModel called setState to set the appropriate validation messages
   }
