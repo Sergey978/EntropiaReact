@@ -25,7 +25,7 @@ export default class SignupForm extends Component {
     // it to work with a state management solution like Redux.
     this.formState = FormState.create(this);
 
-    this.state = {};
+    this.state = {"userName": "invalid"};
 
     // defaults to show on change
     this.formState.showMessageOn('blur');
@@ -34,6 +34,9 @@ export default class SignupForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     // this.handlePasswordChange = this.handlePasswordChange.bind(this);   
     // this.handleEmailChange = this.handleEmailChange.bind(this);
+
+    //test set invalid 
+
   }
 
   //
@@ -77,8 +80,9 @@ export default class SignupForm extends Component {
             formField='username'
             label='Username'
             required
-            fsv={v => v.regex(/^\S+$/).msg('Username must not contain spaces')}
+            fsv={v => v.regex(/^\S+$/).msg('Username must not contain spaces') }
             handleValueChange={v => this.handleUsernameChange(v)}
+            
           />
         </div>
 
@@ -180,6 +184,7 @@ export default class SignupForm extends Component {
         isUsernameFree.then(function (v) {
           if (v.response === "false") {
             fieldState.setValid('Verified');
+            
           }
           else {
             fieldState.setInvalid('Username already exists');
@@ -193,9 +198,11 @@ export default class SignupForm extends Component {
           }
 
           )
+          console.log( JSON.stringify(this.state));
 
       }
     }, 2000);
+    
 
   }
 
@@ -268,6 +275,7 @@ export default class SignupForm extends Component {
     const model = this.formState.createUnitOfWork().createModel();
     if (model) {
     //  alert(JSON.stringify(model)); // proceed with valid data
+   // alert(JSON.stringify(this.state));
       document.getElementById('SignupForm').submit();
 
     }
