@@ -2,8 +2,10 @@ import 'babel-polyfill';
 
 export default class ApiService {
 
-  //_apiBase = 'http://localhost:8080';
+  // if api base url same as server host set is empty
+  //_apiBase = '';
   _apiBase = 'http://192.168.1.131:8080';
+  //_apiBase = "http://"+window.location.hostname;
 
   async getResource(url, params) {
     const res = await fetch(`${this._apiBase}${url}`,
@@ -22,6 +24,10 @@ export default class ApiService {
         `, received ${res.status}`)
     }
     return await res.json();
+  }
+
+  postForm(apiUrl, data){
+    
   }
 
   async getAllPeople() {

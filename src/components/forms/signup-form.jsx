@@ -25,18 +25,15 @@ export default class SignupForm extends Component {
     // it to work with a state management solution like Redux.
     this.formState = FormState.create(this);
 
-    this.state = {"userName": "invalid"};
+    this.state = { "userName": "invalid" };
 
     // defaults to show on change
     this.formState.showMessageOn('blur');
     this.formState.setEnsureValidationOnBlur(true);
 
     this.handleSubmit = this.handleSubmit.bind(this);
-    // this.handlePasswordChange = this.handlePasswordChange.bind(this);   
-    // this.handleEmailChange = this.handleEmailChange.bind(this);
-
-    //test set invalid 
-
+    this.handlePasswordChange = this.handlePasswordChange.bind(this);
+    this.handleEmailChange = this.handleEmailChange.bind(this);
   }
 
   //
@@ -73,16 +70,16 @@ export default class SignupForm extends Component {
 
   render() {
     return (
-      <Form formState={this.formState} onSubmit={this.handleSubmit} id="SignupForm">
+      <Form formState={this.formState} onSubmit={this.handleSubmit} id="SignupForm" method="post">
 
         <div className="top-margin">
           <RfsInput
             formField='username'
             label='Username'
             required
-            fsv={v => v.regex(/^\S+$/).msg('Username must not contain spaces') }
+            fsv={v => v.regex(/^\S+$/).msg('Username must not contain spaces')}
             handleValueChange={v => this.handleUsernameChange(v)}
-            
+
           />
         </div>
 
@@ -184,7 +181,7 @@ export default class SignupForm extends Component {
         isUsernameFree.then(function (v) {
           if (v.response === "false") {
             fieldState.setValid('Verified');
-            
+
           }
           else {
             fieldState.setInvalid('Username already exists');
@@ -196,13 +193,10 @@ export default class SignupForm extends Component {
             fieldState.setInvalid('something wrong happened...');
             context.updateFormState();
           }
-
           )
-          console.log( JSON.stringify(this.state));
-
       }
     }, 2000);
-    
+
 
   }
 
@@ -239,8 +233,6 @@ export default class SignupForm extends Component {
         const isUserEmailFree = this.apiService.isUserEmailExist(userEmail.toLowerCase());
 
         isUserEmailFree.then(function (v) {
-
-          console.log("response " + v.response);
           if (v.response === "false") {
             fieldState.setValid('Verified');
           }
@@ -274,9 +266,28 @@ export default class SignupForm extends Component {
     e.preventDefault();
     const model = this.formState.createUnitOfWork().createModel();
     if (model) {
-    //  alert(JSON.stringify(model)); // proceed with valid data
-   // alert(JSON.stringify(this.state));
-      document.getElementById('SignupForm').submit();
+      //  alert(JSON.stringify(model)); // proceed with valid data   
+      const data = new FormData(e.target);
+
+      // console.log(model); 
+
+      // formStringData = JSON.stringify(model) ;
+
+      var form_data = "";
+      for (const prop in model) {
+        form_data = form_data + prop + "=" + model[prop]+ "&";        
+      }
+     
+
+      fetch(`http://192.168.1.131:8080/account/signup/`,
+      {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded', 
+                },
+        method: "POST",
+      //  body: "param1=value1&param2=value2"
+      body: form_data
+      })
 
     }
     // else: createModel called setState to set the appropriate validation messages
