@@ -3,19 +3,20 @@ import 'babel-polyfill';
 export default class ApiService {
 
   // if api base url same as server host set is empty
-  //_apiBase = '';
-  _apiBase = 'http://192.168.1.131:8080';
+  _apiBase = '';
+  //_apiBase = 'http://192.168.1.131:8080';
   //_apiBase = "http://"+window.location.hostname;
+  //_apiBase = "http://localhost:8080";
 
   async getResource(url, params) {
     const res = await fetch(`${this._apiBase}${url}`,
       {
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded', 
-                },
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
         method: "POST",
-      //  body: "param1=value1&param2=value2"
-      body: params
+        //  body: "param1=value1&param2=value2"
+        body: params
       }
     );
 
@@ -26,8 +27,26 @@ export default class ApiService {
     return await res.json();
   }
 
-  postForm(apiUrl, data){
-    
+
+  // posting form data to api
+  postForm(apiUrl, data) {
+    fetch(`${this._apiBase}${apiUrl}`,
+      {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        method: "POST",
+        redirect: "follow",
+        body: data,
+      })
+      .then(response => {
+        // HTTP 301 response
+        if (response.redirected) {
+          window.location.replace(response.url);
+        }
+
+      })
+      .catch(error => console.error(error));
   }
 
   async getAllPeople() {
@@ -47,7 +66,7 @@ export default class ApiService {
 
   async isUserEmailExist(email) {
 
-    let res = this.getResource("/account/useremail/",  `email=${email}`);
+    let res = this.getResource("/account/useremail/", `email=${email}`);
     return res;
   }
 

@@ -279,15 +279,7 @@ export default class SignupForm extends Component {
       }
      
 
-      fetch(`http://192.168.1.131:8080/account/signup/`,
-      {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded', 
-                },
-        method: "POST",
-      //  body: "param1=value1&param2=value2"
-      body: form_data
-      })
+      this.apiService.postForm('/account/signup/', form_data);
 
     }
     // else: createModel called setState to set the appropriate validation messages
