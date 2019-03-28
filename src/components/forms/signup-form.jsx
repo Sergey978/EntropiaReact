@@ -25,8 +25,6 @@ export default class SignupForm extends Component {
     // it to work with a state management solution like Redux.
     this.formState = FormState.create(this);
 
-    this.state = { "userName": "invalid" };
-
     // defaults to show on change
     this.formState.showMessageOn('blur');
     this.formState.setEnsureValidationOnBlur(true);
