@@ -5,7 +5,22 @@ import Footer from '../footer';
 
 export default class SigninApp extends Component {
 
+  constructor(props) {
+    super(props);
+
+    // This is an instance of the API. It will bind to
+    // form fields configured in your JSX. It normally
+    // assumes state is held in this.state, but you can configure
+    // it to work with a state management solution like Redux.
+    const viewBag = props;
+  }
+
+   
+
+  
+
   render() {
+    console.log( viewBag.userName);
     return (
       <div>
         <Navbar />

@@ -18,10 +18,10 @@ export default class SigninForm extends Component {
     // form fields configured in your JSX. It normally
     // assumes state is held in this.state, but you can configure
     // it to work with a state management solution like Redux.
-    this.formState = FormState.create(this);     
+    this.formState = FormState.create(this);
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
 
-    this.handleSubmit = this.handleSubmit.bind(this);    
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   //
@@ -39,15 +39,15 @@ export default class SigninForm extends Component {
             formField='username'
             label='Username / Email'
             handleValueChange={v => this.handleUsernameChange(v)}
-                     
+
           />
         </div>
         <div className="top-margin">
           <RfsInput
             type='password'
             formField='Password'
-            label='Password'   
-            handleValueChange={v => this.handlePasswordChange(v)}                 
+            label='Password'
+            handleValueChange={v => this.handlePasswordChange(v)}
             preferNull
           />
         </div>
@@ -64,7 +64,7 @@ export default class SigninForm extends Component {
       </Form>
     );
   }
-    
+
 
   //
   //
@@ -73,19 +73,18 @@ export default class SigninForm extends Component {
   //
 
 
-  handleUsernameChange(username, formField) {
-    console.log(formField);
+  handleUsernameChange(username) {
     const context = this.formState.createUnitOfWork();
-     context.set('username', username);     
-      context.updateFormState();
-      return;
+    context.set('username', username);
+    context.updateFormState();
+    return;
   }
 
-  handlePasswordChange(password){
-const context = this.formState.createUnitOfWork();
-context.set('Password', password);
-context.updateFormState();
-return;
+  handlePasswordChange(password) {
+    const context = this.formState.createUnitOfWork();
+    context.set('Password', password);
+    context.updateFormState();
+    return;
 
   }
 
