@@ -3,8 +3,8 @@ import 'babel-polyfill';
 export default class ApiService {
 
   // if api base url same as server host set is empty
-  //_apiBase = '';
-  _apiBase = 'http://192.168.1.131:8080';
+  _apiBase = '';
+  //_apiBase = 'http://192.168.1.131:8080';
   //_apiBase = "http://"+window.location.hostname;
   //_apiBase = "http://localhost:8080";
 
@@ -60,13 +60,13 @@ export default class ApiService {
 
 
   async isUserNameExist(name) {
-    let res = this.getResource("/account/username/", `username=${name}`);
+    let res = this.getResource("/account/isUserNameExist/", `username=${name}`);
     return res;
   }
 
   async isUserEmailExist(email) {
 
-    let res = this.getResource("/account/useremail/", `email=${email}`);
+    let res = this.getResource("/account/isUserEmailExist/", `email=${email}`);
     return res;
   }
 
