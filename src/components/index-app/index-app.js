@@ -9,11 +9,10 @@ export default class IndexApp extends Component {
 
     render() {
         const { data } = this.props;
-        console.log(data);
 
         return (
             <div>
-                <Navbar />
+                <Navbar servData={data} />
                 <header id="head" > {/** <!-- Header -->*/}
                     <Slider />
                 </header>   {/**<!-- /Header -->*/}

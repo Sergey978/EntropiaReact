@@ -1,6 +1,8 @@
 import React from 'react';
 
-const Navbar = () => {
+const Navbar = (data) => {
+   const pageData = data.servData.page;
+   const userData = data.servData.user; 
     return (
         <div className="navbar navbar-inverse navbar-fixed-top headroom" id="navbar">
             <div className="container">
@@ -14,9 +16,9 @@ const Navbar = () => {
                     <a className="navbar-brand" href="#"><img src="../assets/images/logo.png" alt="Progressus HTML5 template" /></a>
                 </div>
                 <div className="navbar-collapse collapse">
-                    <ul className="nav navbar-nav pull-right">
-                        <li><a href="#">Home</a></li>
-                        <li><a href="about.html">About</a></li>
+                    <ul className="nav navbar-nav pull-right">                         
+                        <li className={( pageData.pageName =="Home")?("active"):("")}><a href="#">Home</a></li>
+                        <li className={(pageData.pageName =="About")?("active"):("")}><a href="about.html">About</a></li>
                         <li className="dropdown">
                             <a href="#" className="dropdown-toggle" data-toggle="dropdown">More Pages <b className="caret"></b></a>
                             <ul className="dropdown-menu">
@@ -24,8 +26,10 @@ const Navbar = () => {
                                 <li><a href="#">Right Sidebar</a></li>
                             </ul>
                         </li>
-                        <li><a href="contact.html">Contact</a></li>
-                        <li className="active"><a className="btn" href="#">SIGN IN / SIGN UP</a></li>
+                        <li className={(pageData.pageName =="Contact")?("active"):("")}><a href="contact.html">Contact</a></li>
+                      
+                      <li><a className="btn" href="#">{userData.userName.trim() === "" ? 'SIGN IN / SIGN UP':userData.userName} </a></li>
+                       
                     </ul>
                 </div>
 
