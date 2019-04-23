@@ -33,6 +33,10 @@
     "start-signup": "parcel public/signup.html",
     "build-signup": "parcel build src/signup.js",
     "start-signin": "parcel public/signin.html",
-    "build-signin": "parcel build src/signin.js"
+    "build-signin": "parcel build src/signin.js",
+    "start-navbar": "parcel public/navbar.html",
+    "build-navbar": "parcel build src/navbar.js"
+
+
     }
 }
