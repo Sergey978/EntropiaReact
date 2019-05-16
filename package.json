@@ -1,6 +1,8 @@
 {
   "dependencies": {
-    "express": "^4.15.4"
+    "components": "^0.1.0",
+    "express": "^4.15.4",
+    "src": "^1.1.2"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.2.3",
@@ -35,8 +37,7 @@
     "start-signin": "parcel public/signin.html",
     "build-signin": "parcel build src/signin.js",
     "start-navbar": "parcel public/navbar.html",
-    "build-navbar": "parcel build src/navbar.js"
-
-
-    }
+    "build-navbar": "parcel build src/navbar.js",
+    "build-signup-form": "parcel build src/signup-form.js"
+  }
 }
